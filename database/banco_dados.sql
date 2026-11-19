@@ -24,7 +24,7 @@ CREATE TABLE projeto_tatuagem(
     FOREIGN KEY (cliente_id) REFERENCES clientes(id_cliente)
 );
 
-CREATE TABLE sessao(
+CREATE TABLE agendamento_sessao(
     id_sessao INT AUTO_INCREMENT PRIMARY KEY,
     projeto_tatuagem_id INT NOT NULL,
     data_agendamento DATETIME NOT NULL,
