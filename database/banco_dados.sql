@@ -34,13 +34,13 @@ CREATE TABLE sessao(
 
 INSERT INTO usuarios(nome, email, senha) VALUES
 ('Administrador', 'admin@oficina.com', '$2b$10$mDHyxGWwZfFPA1j5x4giaeCyDFkMax0YNecXFwaAz9wX8xtjndcmm'),
-('Carlos Mecanico', 'carlos@oficina.com', '$2b$10$mDHyxGWwZfFPA1j5x4giaeCyDFkMax0YNecXFwaAz9wX8xtjndcmm'),
-('Fernanda Atendente', 'fernanda@oficina.com', '$2b$10$mDHyxGWwZfFPA1j5x4giaeCyDFkMax0YNecXFwaAz9wX8xtjndcmm');
+('Roberto Carlos', 'roberto@oficina.com', '$2b$10$mDHyxGWwZfFPA1j5x4giaeCyDFkMax0YNecXFwaAz9wX8xtjndcmm'),
+('Marlon Atendente', 'marlon@oficina.com', '$2b$10$mDHyxGWwZfFPA1j5x4giaeCyDFkMax0YNecXFwaAz9wX8xtjndcmm');
 
 INSERT INTO clientes(nome, email, cpf) VALUES
-('João da Sailva', 'joao.silva@email.com', '143258aaf546a49c857215f74822e800'),
-('Maria Souza', 'maria.souza@email.com', '6ede5a9078ef6d50ae2b1cd07829435b'),
-('Pedro Oliveira', 'pedro.oliveira@email.com', 'd11d16f767378013c69b152ae3225fb2');
+('Andrew Clark', 'andrew.clark@email.com', '143258aaf546a49c857215f74822e800'),
+('Pedro Pinheiro', 'pedro.pinheiro@email.com', '6ede5a9078ef6d50ae2b1cd07829435b'),
+('Adrian Clark', 'adrian.clark@email.com', 'd11d16f767378013c69b152ae3225fb2');
 
 INSERT INTO projeto_tatuagem(cliente_id, estilo_arte, tamanho, arte) VALUES
 (1, 'Cartoon', 'Medio', 'Bob Esponja'),
