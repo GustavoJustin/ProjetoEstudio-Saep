@@ -33,9 +33,9 @@ CREATE TABLE agendamento_sessao(
 );
 
 INSERT INTO usuarios(nome, email, senha) VALUES
-('Administrador', 'admin@oficina.com', '$2b$10$mDHyxGWwZfFPA1j5x4giaeCyDFkMax0YNecXFwaAz9wX8xtjndcmm'),
-('Roberto Carlos', 'roberto@oficina.com', '$2b$10$mDHyxGWwZfFPA1j5x4giaeCyDFkMax0YNecXFwaAz9wX8xtjndcmm'),
-('Marlon Atendente', 'marlon@oficina.com', '$2b$10$mDHyxGWwZfFPA1j5x4giaeCyDFkMax0YNecXFwaAz9wX8xtjndcmm');
+('Administrador', 'admin@estudio.com', '$2b$10$mDHyxGWwZfFPA1j5x4giaeCyDFkMax0YNecXFwaAz9wX8xtjndcmm'),
+('Roberto Carlos', 'roberto@estudio.com', '$2b$10$mDHyxGWwZfFPA1j5x4giaeCyDFkMax0YNecXFwaAz9wX8xtjndcmm'),
+('Marlon Atendente', 'marlon@estudio.com', '$2b$10$mDHyxGWwZfFPA1j5x4giaeCyDFkMax0YNecXFwaAz9wX8xtjndcmm');
 
 INSERT INTO clientes(nome, email, cpf) VALUES
 ('Andrew Clark', 'andrew.clark@email.com', '143258aaf546a49c857215f74822e800'),
@@ -47,7 +47,9 @@ INSERT INTO projeto_tatuagem(cliente_id, estilo_arte, tamanho, arte) VALUES
 (2, 'Pixelado', 'Grande', 'Charizard'),
 (3, 'Normal', 'Pequeno', 'Borboleta');
 
-INSERT INTO sessao(projeto_tatuagem_id, data_agendamento, servico) VALUES
+INSERT INTO agendamento_sessao
+(projeto_tatuagem_id, data_agendamento, servico)
+VALUES
 (2, '2026-11-05 09:00:00', 'Troca de oleo'),
 (1, '2026-10-20 14:30:00', 'Alinhamento e balanceamento'),
 (3, '2026-10-20 00:00:00', 'Revisao dos freios');

@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudio - Projetos</title>
+</head>
+
+<body>
+
+    <h1>Projetos</h1>
+
+    <p><a href="/principal">Voltar</a></p>
+
+    <!-- LISTA DE PROJETOS -->
+
+    <table border="1">
+
+        <thead>
+            <tr>
+                <th>Estilo</th>
+                <th>Tamanho</th>
+                <th>Arte</th>
+                <th>Cliente</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {{#projetos}}
+
+            <tr>
+                <td>{{estilo_arte}}</td>
+                <td>{{tamanho}}</td>
+                <td>{{arte}}</td>
+                <td>{{clientes_nome}}</td>
+
+                <td>
+
+                    <a href="/projetos?editar={{id}}">
+                        Editar
+                    </a>
+
+                    <form method="POST" action="/projetos/{{id}}">
+
+                        <input
+                            type="hidden"
+                            name="_method"
+                            value="DELETE"
+                        >
+
+                        <button type="submit">
+                            Excluir
+                        </button>
+
+                    </form>
+
+                </td>
+            </tr>
+
+            {{/projetos}}
+
+        </tbody>
+
+    </table>
+
+
+    <!-- CADASTRAR OU EDITAR PROJETO -->
+
+    <h2>
+        {{#editando}}Editar{{/editando}}
+        {{^editando}}Cadastrar{{/editando}}
+        projeto
+    </h2>
+
+    <form method="POST" action="{{acao}}">
+
+        {{#editando}}
+            <input
+                type="hidden"
+                name="_method"
+                value="PUT"
+            >
+        {{/editando}}
+
+        <select name="cliente_id" required>
+
+            <option value="">
+                Selecione o cliente
+            </option>
+
+            {{#clientes}}
+
+                <option value="{{id}}" {{selecionado}}>
+                    {{nome}}
+                </option>
+
+            {{/clientes}}
+
+        </select>
+
+        <input
+            type="text"
+            name="estilo_arte"
+            placeholder="Estilo"
+            value="{{form.estilo_arte}}"
+            required
+        >
+
+        <input
+            type="text"
+            name="tamanho"
+            placeholder="Tamanho"
+            value="{{form.tamanho}}"
+        >
+
+        <input
+            type="text"
+            name="arte"
+            placeholder="Arte"
+            value="{{form.arte}}"
+        >
+
+        <button type="submit">
+            {{#editando}}Salvar{{/editando}}
+            {{^editando}}Cadastrar{{/editando}}
+        </button>
+
+    </form>
+
+    <p>{{erro}}</p>
+
+</body>
+</html>

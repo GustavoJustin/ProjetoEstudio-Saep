@@ -1,64 +1,145 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estudio - Agendamentos</title>
 </head>
+
 <body>
+
     <h1>Agendamentos</h1>
 
-    <p><a href="/principal">Voltar</a></p>
+    <p>
+        <a href="/principal">Voltar</a>
+    </p>
+
+    <!-- LISTA DE AGENDAMENTOS -->
 
     <table border="1">
-        <tr>
-            <th>Data</th>
-            <th>Servico</th>
-            <th>Projetos</th>
-            <th>Cliente</th>
-            <th>Alterar data</th>
-            <th></th>    
-        </tr>
 
-        {{#agendamentos}}
+        <thead>
             <tr>
-                <td>{{data_br}}</td>
-                <td>{{servico}}</td>
-                <td>{{estilo_arte}}</td>
-                <td>{{clientes_nome}}</td>
-                <td>
-                    <form method="POST" action="/agendamentos/{{id}}">
-                        <input type="hidden" name="_method" value="PUT"/>
-
-                        <input type="datetime-local" name="data_agendamento" value="{{data_input}}" required>
-
-                        <button>Salvar</button>
-                    </form>
-                </td>
-                <td>
-                    <form method="POST" action="/agendamentos/{{id}}">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button>Excluir</button>
-                    </form>
-                </td>
+                <th>Data</th>
+                <th>Servico</th>
+                <th>Projeto</th>
+                <th>Cliente</th>
+                <th>Alterar data</th>
+                <th>Ações</th>
             </tr>
-        {{/agendamentos}}
+        </thead>
+
+        <tbody>
+
+            {{#agendamentos}}
+
+            <tr>
+
+                <td>{{data_br}}</td>
+
+                <td>{{servico}}</td>
+
+                <td>{{estilo_arte}}</td>
+
+                <td>{{clientes_nome}}</td>
+
+                <!-- ALTERAR DATA -->
+
+                <td>
+
+                    <form method="POST" action="/agendamentos/{{id}}">
+
+                        <input
+                            type="hidden"
+                            name="_method"
+                            value="PUT"
+                        >
+
+                        <input
+                            type="datetime-local"
+                            name="data_agendamento"
+                            value="{{data_input}}"
+                            required
+                        >
+
+                        <button type="submit">
+                            Salvar
+                        </button>
+
+                    </form>
+
+                </td>
+
+                <!-- EXCLUIR AGENDAMENTO -->
+
+                <td>
+
+                    <form method="POST" action="/agendamentos/{{id}}">
+
+                        <input
+                            type="hidden"
+                            name="_method"
+                            value="DELETE"
+                        >
+
+                        <button type="submit">
+                            Excluir
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+            {{/agendamentos}}
+
+        </tbody>
+
     </table>
 
+
+    <!-- CADASTRAR AGENDAMENTO -->
+
     <h2>Cadastrar agendamento</h2>
+
     <form method="POST" action="/agendamentos">
-        <select name="projeto_id" required>
-            <option value="">Selecione o projeto</option>
+
+        <select name="projeto_tatuagem_id" required>
+
+            <option value="">
+                Selecione o projeto
+            </option>
+
             {{#projetos}}
-                <option value="{{id}}">{{estilo_arte}} - {{temanho}} - {{arte}}</option>
+
+            <option value="{{id}}">
+                {{estilo_arte}} - {{tamanho}} - {{arte}}
+            </option>
+
             {{/projetos}}
+
         </select>
-        
-        <input type="datetime-local" name="data_agendamento" required/>
 
-        <input type="text" name="servico" placeholder="Servico"/>
+        <input
+            type="datetime-local"
+            name="data_agendamento"
+            required
+        >
 
-        <button>Cadastrar</button>
+        <input
+            type="text"
+            name="servico"
+            placeholder="Servico"
+        >
+
+        <button type="submit">
+            Cadastrar
+        </button>
+
     </form>
+
 </body>
 </html>
