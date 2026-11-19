@@ -3,37 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oficina - Veiculos</title>
+    <title>Estudio - Projetos</title>
 </head>
 <body>
-    <h1>Veiculos</h1>
+    <h1>Projetos</h1>
     <p><a href="/principal">Voltar</a></p>
 
     <table border="1">
         <tr>
-            <th>Placa</th>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>Ano</th>
+            <th>Estilo</th>
+            <th>Tamanho</th>
+            <th>Arte</th>
             <th>Cliente</th>
             <th></th>
         </tr>
-        {{#veiculos}}
+        {{#projetos}}
         <tr>
-            <td>{{placa}}</td>
-            <td>{{marca}}</td>
-            <td>{{modelo}}</td>
-            <td>{{ano}}</td>
+            <td>{{estilo_arte}}</td>
+            <td>{{tamanho}}</td>
+            <td>{{arte}}</td>
             <td>{{cliente_id}}</td>
             <td>
-                <a href="/veiculos?editar={{id}}">Editar</a>
-                <form method="POST" action="/veiculos/{{id}}">
+                <a href="/projetos?editar={{id}}">Editar</a>
+                <form method="POST" action="/projetos/{{id}}">
                     <input type="hidden" name="_method" value="DELETE">
                     <button>Excluir</button>
                 </form>
             </td>
         </tr>
-        {{/veiculos}}
+        {{/projetos}}
     </table>
     <h2>{{#editando}}Editar{{/editando}}{{^editando}}Cadastrar{{/editando}} veiculo</h2>
 
@@ -44,10 +42,9 @@
             {{#clientes}}<option value="{{id}}" {{selecionado}}>{{nome}}</option>{{/clientes}}
         </select>
 
-        <input type="text" name="placa" placeholder="Placa" value="{{form.placa}}" required/>
-        <input type="text" name="marca" placeholder="Marca" value="{{form.marca}}"/>
-        <input type="text" name="modelo" placeholder="Modelo" value="{{form.modelo}}"/>
-        <input type="text" name="ano" placeholder="Ano" value="{{form.ano}}"/>
+        <input type="text" name="estilo_arte" placeholder="Estilo" value="{{form.estilo_arte}}" required/>
+        <input type="text" name="tamanho" placeholder="Tamanho" value="{{form.tamanho}}"/>
+        <input type="text" name="arte" placeholder="Arte" value="{{form.arte}}"/>
 
         <button>{{#editando}}Salvar{{/editando}}{{^editando}}Cadastrar{{/editando}}</button>
     </form>

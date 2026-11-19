@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oficina - Agendamentos</title>
+    <title>Estudio - Agendamentos</title>
 </head>
 <body>
     <h1>Agendamentos</h1>
@@ -14,7 +14,7 @@
         <tr>
             <th>Data</th>
             <th>Servico</th>
-            <th>Veiculos</th>
+            <th>Projetos</th>
             <th>Cliente</th>
             <th>Alterar data</th>
             <th></th>    
@@ -24,7 +24,7 @@
             <tr>
                 <td>{{data_br}}</td>
                 <td>{{servico}}</td>
-                <td>{{placa}}</td>
+                <td>{{estilo_arte}}</td>
                 <td>{{clientes_nome}}</td>
                 <td>
                     <form method="POST" action="/agendamentos/{{id}}">
@@ -47,11 +47,11 @@
 
     <h2>Cadastrar agendamento</h2>
     <form method="POST" action="/agendamentos">
-        <select name="veiculo_id" required>
-            <option value="">Selecione o veiculo</option>
-            {{#veiculos}}
-                <option value="{{id}}">{{placa}} - {{marca}} - {{modelo}}</option>
-            {{/veiculos}}
+        <select name="projeto_id" required>
+            <option value="">Selecione o projeto</option>
+            {{#projetos}}
+                <option value="{{id}}">{{estilo_arte}} - {{temanho}} - {{arte}}</option>
+            {{/projetos}}
         </select>
         
         <input type="datetime-local" name="data_agendamento" required/>

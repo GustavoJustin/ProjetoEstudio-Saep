@@ -67,11 +67,11 @@ async function excluir(res, tabela, id, volta, motivo) {
     }
 }
 
-//mostrar veiculos
-async function mostrarVeiculos(req, res, erro = "") {
-    const [veiculos] = await db.query("SELECT * FROM veiculos")
-    const [listarClientes] = await db.query("SELECT id, nome FROM CLIENTES")
-    const editar = veiculos.find((v) => String(v.id) === req.query.editar)
+//mostrar projetos de tatuagem
+async function mostrarProjetos(req, res, erro = "") {
+    const [projetos] = await db.query("SELECT * FROM projeto_tatuagem")
+    const [listarClientes] = await db.query("SELECT id, nome FROM clientes")
+    const editar = projetos.find((v) => String(v.id) === req.query.editar)
 
     const clientes = listarClientes.map((cliente) => ({
         ...cliente,
@@ -79,12 +79,12 @@ async function mostrarVeiculos(req, res, erro = "") {
     }))
 
     res.send(
-        mostrar("veiculos", {
-            veiculos,
+        mostrar("projetos", {
+            projetos,
             clientes,
             erro,
             editando: Boolean(editar),
-            acao: editar ? `/veiculos/${editar.id}` : "/veiculos",
+            acao: editar ? `/projetos/${editar.id}` : "/projetos",
             form: editar || {},
         })
     )
@@ -155,63 +155,63 @@ app.get("/clientes", async (req, res) => {
 })
 
 app.post('/clientes', async(req, res) => {
-    const { nome, cpf, telefone, email } = req.body
+    const { nome, email, cpf } = req.body
     await db.query(
-        'INSERT INTO clientes (nome, cpf, telefone, email) VALUE (?,?,?,?)',
-        [nome, criptografar(cpf), telefone, email]
+        'INSERT INTO clientes (nome, email, cpf) VALUE (?,?,?)',
+        [nome, email, criptografar(cpf)]
     )
     res.redirect('/clientes')
 })
 
 app.put('/clientes/:id', async(req, res) => {
-    const { nome, cpf, telefone, email } = req.body
+    const { nome, email, cpf } = req.body
     await db.query(
-        "UPDATE clientes SET nome = ?, cpf = ?, telefone = ?, email = ? WHERE id = ?",
-        [nome, criptografar(cpf), telefone, email, req.params.id]
+        "UPDATE clientes SET nome = ?, email = ?, cpf = ? WHERE id = ?",
+        [nome, email, criptografar(cpf), req.params.id]
     )
     res.redirect('/clientes')
 })
 
 app.delete('/clientes/:id', async(req, res) => {
-    await excluir(res,'clientes', req.params.id, '/clientes', 'O cliente ja possui veículos cadastrados')
+    await excluir(res,'clientes', req.params.id, '/clientes', 'O cliente ja possui projetos cadastrados')
 })
 
 
-//===============================================PARTE VEICULOS===============================================
-app.get('/veiculos', (req, res) => mostrarVeiculos(req,res))
+//===============================================PARTE PROJETOS===============================================
+app.get('/projetos', (req, res) => mostrarProjetos(req,res))
 
-app.post('/veiculos', async(req, res) => {
-    const { cliente_id, placa, marca, modelo, ano } = req.body
+app.post('/projetos', async(req, res) => {
+    const { cliente_id, estilo_arte, tamanho, arte } = req.body
     if(!cliente_id) {
-        return mostrarVeiculos(req, res, "Cliente ID é obrigatório")
+        return mostrarProjetos(req, res, "Cliente ID é obrigatório")
     }
     await db.query(
-        "INSERT INTO veiculos (cliente_id, placa, marca, modelo, ano) VALUES (?,?,?,?,?)",
-        [cliente_id, placa, marca, modelo, ano || null]
+        "INSERT INTO projeto_tatuagem(cliente_id, estilo_arte, tamanho, arte) VALUES (?,?,?,?)",
+        [cliente_id, estilo_arte, tamanho, arte || null]
     )
-    res.redirect("/veiculos")
+    res.redirect("/projetos")
 })
 
-app.put('/veiculos/:id', async (req, res) => {
-    const {cliente_id, placa, marca, modelo, ano} = req.body
+app.put('/projetos/:id', async (req, res) => {
+    const {cliente_id, estilo_arte, tamanho, arte} = req.body
 
-    if(!cliente_id) return mostrarVeiculos(req, res, 'cliente_id e obrigatorio.')
+    if(!cliente_id) return mostrarProjetos(req, res, 'cliente_id e obrigatorio.')
     
-    await db.query('UPDATE veiculos SET cliente_id = ?, placa = ?, marca = ?, modelo = ?, ano = ? WHERE id = ?', [cliente_id, placa, marca, modelo, ano || devNull, req.params.id])
+    await db.query('UPDATE projeto_tatuagem SET cliente_id = ?, estilo_arte = ?, tamanho = ?, arte = ? WHERE id = ?', [cliente_id, estilo_arte, tamanho, arte, req.params.id])
 
-    res.redirect('/veiculos')
+    res.redirect('/projetos')
 })
 
-app.delete('/veiculos/:id', async(req, res) => {
-    await excluir(res, 'veiculos', req.params.id, '/veiculos', 'O veiculo possui agendamentos')
+app.delete('/projetos/:id', async(req, res) => {
+    await excluir(res, 'projetos', req.params.id, '/projetos', 'O projeto possui agendamentos de sessao')
 })
 
 
-//===============================================PARTE AGENDAMENTOS===============================================
+//===============================================PARTE AGENDAMENTO PROJETOS===============================================
 app.get('/agendamentos', async (req, res) => {
-    const [lista] = await db.query('SELECT agendamento.*, veiculos.placa, veiculos.marca, veiculos.modelo, clientes.nome AS clientes_nome FROM agendamento JOIN veiculos ON veiculos.id = agendamento.veiculo_id JOIN clientes ON clientes.id = veiculos.cliente_id ORDER BY agendamento.data_agendamento') //Mudar "agendamento.data_agendamento" para como voce quer ordenar a lista
+    const [lista] = await db.query('SELECT agendamento_sessao.*, projeto_tatuagem.estilo_arte, projeto_tatuagem.tamanho, projeto_tatuagem.arte, clientes.nome AS clientes_nome FROM agendamento_sessao JOIN projeto_tatuagem ON projeto_tatuagem.id_projeto = agendamento_sessao.projeto_tatuagem_id JOIN clientes ON clientes.id_cliente = projeto_tatuagem.cliente_id ORDER BY agendamento_sessao.data_agendamento') //Mudar "agendamento.data_agendamento" para como voce quer ordenar a lista
 
-    const [veiculos] = await db.query('SELECT * FROM veiculos')
+    const [projetos] = await db.query('SELECT * FROM projeto_tatuagem')
 
     const agendamentos = lista.map((a) => ({
         ...a,
@@ -219,19 +219,19 @@ app.get('/agendamentos', async (req, res) => {
         data_input: a.data_agendamento.slice(0,16).replace(' ', 'T')
     }))
 
-    res.send(mostrar('agendamentos',{agendamentos, veiculos}))
+    res.send(mostrar('agendamentos',{agendamentos, projetos}))
 })
 
 app.post('/agendamentos', async (req, res) => {
-    const {veiculo_id, data_agendamento, servico} = req.body
+    const {projeto_tatuagem_id, data_agendamento, servico} = req.body
 
-    await db.query('INSERT INTO agendamento (veiculo_id, data_agendamento, servico) VALUES (?,?,?)', [veiculo_id, data_agendamento.replace('T', ' '), servico])
+    await db.query('INSERT INTO agendamento_sessao (projeto_tatuagem_id, data_agendamento, servico) VALUES (?,?,?)', [projeto_tatuagem_id, data_agendamento.replace('T', ' '), servico])
 
     res.redirect('/agendamentos')
 })
 
 app.put('/agendamentos/:id', async (req, res) => {
-    await db.query('UPDATE agendamento SET data_agendamento = ? WHERE id = ?', [req.body.data_agendamento.replace('T', ' '), req.params.id])
+    await db.query('UPDATE agendamento_sessao SET data_agendamento = ? WHERE id = ?', [req.body.data_agendamento.replace('T', ' '), req.params.id])
 
     res.redirect('/agendamentos')
 })
@@ -244,5 +244,5 @@ app.delete('/agendamentos/:id', async (req, res) => {
 //===============================================FIM===============================================
 const porta = process.env.PORT || 3000;
 app.listen(porta, () => {
-    console.log(`Oficina rodando em http://localhost:${porta}`)
+    console.log(`Estudio rodando em http://localhost:${porta}`)
 })
